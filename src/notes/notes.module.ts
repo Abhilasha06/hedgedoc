@@ -18,6 +18,7 @@ import { UsersModule } from '../users/users.module';
 import { Note } from './note.entity';
 import { NotesService } from './notes.service';
 import { Tag } from './tag.entity';
+import { AliasService } from './alias.service';
 
 @Module({
   imports: [
@@ -36,7 +37,7 @@ import { Tag } from './tag.entity';
     ConfigModule,
   ],
   controllers: [],
-  providers: [NotesService],
-  exports: [NotesService],
+  providers: [NotesService, AliasService],
+  exports: [NotesService, AliasService],
 })
 export class NotesModule {}
