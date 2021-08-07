@@ -5,7 +5,10 @@
  */
 
 import { randomBytes } from 'crypto';
-import { generatePublicId } from './utils';
+import { generatePublicId, getPrimaryAlias } from './utils';
+import { Note } from './note.entity';
+import { User } from '../users/user.entity';
+import { Alias } from './alias.entity';
 jest.mock('crypto');
 
 it('generatePublicId', () => {
@@ -16,7 +19,17 @@ it('generatePublicId', () => {
   const mockRandomBytes = randomBytes as jest.MockedFunction<
     typeof randomBytes
   >;
-  mockRandomBytes.mockImplementationOnce((_) => random128bitBuffer);
+  mockRandomBytes.mockImplementation((_) => random128bitBuffer);
 
   expect(generatePublicId()).toEqual('w5trddy3zc1tj9mzs7b8rbbvfc');
+});
+
+it('getPrimaryAlias', () => {
+  const user = User.create('hardcoded', 'Testy') as User;
+  const alias = 'alias';
+  const note = Note.create(user, alias);
+  note.aliases[0].primary = true;
+  note.aliases.push(Alias.create('annother', false));
+
+  expect(getPrimaryAlias(note)).toEqual(alias);
 });

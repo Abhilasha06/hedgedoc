@@ -6,6 +6,7 @@
 
 import base32Encode from 'base32-encode';
 import { randomBytes } from 'crypto';
+import { Note } from './note.entity';
 
 /**
  * Generate publicId for a note.
@@ -14,4 +15,12 @@ import { randomBytes } from 'crypto';
 export function generatePublicId(): string {
   const randomId = randomBytes(16);
   return base32Encode(randomId, 'Crockford').toLowerCase();
+}
+
+/**
+ * Extract the primary alias from a aliases of a note
+ * @param {Note} note - the note from which the primary alias should be extracted
+ */
+export function getPrimaryAlias(note: Note): string {
+  return note.aliases.filter((alias) => alias.primary)[0].name;
 }
