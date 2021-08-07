@@ -17,6 +17,7 @@ import { NotesController } from './notes/notes.controller';
 import { MediaController } from './media/media.controller';
 import { MonitoringController } from './monitoring/monitoring.controller';
 import { PermissionsModule } from '../../permissions/permissions.module';
+import { AliasController } from './alias/alias.controller';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { PermissionsModule } from '../../permissions/permissions.module';
     PermissionsModule,
   ],
   controllers: [
+    AliasController,
     MeController,
     NotesController,
     MediaController,
