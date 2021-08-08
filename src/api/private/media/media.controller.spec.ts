@@ -21,7 +21,7 @@ import { NotesModule } from '../../../notes/notes.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Edit } from '../../../revisions/edit.entity';
 import { AuthToken } from '../../../auth/auth-token.entity';
-import { Identity } from '../../../users/identity.entity';
+import { Identity } from '../../../identity/identity.entity';
 import { MediaUpload } from '../../../media/media-upload.entity';
 import { Note } from '../../../notes/note.entity';
 import { Revision } from '../../../revisions/revision.entity';

@@ -12,7 +12,7 @@ import { UsersModule } from '../../../users/users.module';
 import { LoggerModule } from '../../../logger/logger.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../../../users/user.entity';
-import { Identity } from '../../../users/identity.entity';
+import { Identity } from '../../../identity/identity.entity';
 import { MediaModule } from '../../../media/media.module';
 import { NoteGroupPermission } from '../../../permissions/note-group-permission.entity';
 import { NoteUserPermission } from '../../../permissions/note-user-permission.entity';

@@ -7,7 +7,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerModule } from '../logger/logger.module';
-import { Identity } from './identity.entity';
+import { Identity } from '../identity/identity.entity';
 import { Session } from './session.entity';
 import { User } from './user.entity';
 import { UsersService } from './users.service';

@@ -12,7 +12,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from './user.entity';
+import { User } from '../users/user.entity';
+import { ProviderType } from './provider-type.enum';
 
 @Entity()
 export class Identity {
@@ -23,6 +24,9 @@ export class Identity {
     onDelete: 'CASCADE', // This deletes the Identity, when the associated User is deleted
   })
   user: User;
+
+  @Column()
+  providerType: string;
 
   @Column()
   providerName: string;
@@ -53,4 +57,10 @@ export class Identity {
     type: 'text',
   })
   passwordHash: string | null;
+
+  public static create(providerType: ProviderType): Identity {
+    const newIdentity = new Identity();
+    newIdentity.providerType = providerType;
+    return newIdentity;
+  }
 }

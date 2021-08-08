@@ -12,7 +12,7 @@ import { Edit } from '../revisions/edit.entity';
 import { Revision } from '../revisions/revision.entity';
 import { RevisionsModule } from '../revisions/revisions.module';
 import { AuthToken } from '../auth/auth-token.entity';
-import { Identity } from '../users/identity.entity';
+import { Identity } from '../identity/identity.entity';
 import { Session } from '../users/session.entity';
 import { User } from '../users/user.entity';
 import { UsersModule } from '../users/users.module';

@@ -18,7 +18,7 @@ import { HistoryEntry } from './history/history-entry.entity';
 import { MediaUpload } from './media/media-upload.entity';
 import { Tag } from './notes/tag.entity';
 import { AuthToken } from './auth/auth-token.entity';
-import { Identity } from './users/identity.entity';
+import { Identity } from './identity/identity.entity';
 
 /**
  * This function creates and populates a sqlite db for manual testing

@@ -30,7 +30,7 @@ import { Revision } from '../../../revisions/revision.entity';
 import { Edit } from '../../../revisions/edit.entity';
 import { User } from '../../../users/user.entity';
 import { AuthToken } from '../../../auth/auth-token.entity';
-import { Identity } from '../../../users/identity.entity';
+import { Identity } from '../../../identity/identity.entity';
 import { HistoryEntry } from '../../../history/history-entry.entity';
 import { NoteGroupPermission } from '../../../permissions/note-group-permission.entity';
 import { NoteUserPermission } from '../../../permissions/note-user-permission.entity';

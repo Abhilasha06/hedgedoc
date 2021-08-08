@@ -9,7 +9,7 @@ import { Session } from '../../../users/session.entity';
 import { TokensController } from './tokens.controller';
 import { LoggerModule } from '../../../logger/logger.module';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Identity } from '../../../users/identity.entity';
+import { Identity } from '../../../identity/identity.entity';
 import { User } from '../../../users/user.entity';
 import { AuthToken } from '../../../auth/auth-token.entity';
 import { AuthModule } from '../../../auth/auth.module';
