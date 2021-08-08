@@ -20,6 +20,7 @@ import { MediaController } from './media/media.controller';
 import { NotesController } from './notes/notes.controller';
 import { PermissionsModule } from '../../permissions/permissions.module';
 import { RevisionsModule } from '../../revisions/revisions.module';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { RevisionsModule } from '../../revisions/revisions.module';
     HistoryController,
     MeController,
     NotesController,
+    AuthController,
   ],
 })
 export class PrivateApiModule {}
