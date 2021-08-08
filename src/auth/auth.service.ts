@@ -10,7 +10,6 @@ import { User } from '../users/user.entity';
 import { AuthToken } from './auth-token.entity';
 import { AuthTokenDto } from './auth-token.dto';
 import { AuthTokenWithSecretDto } from './auth-token-with-secret.dto';
-import { compare, hash } from 'bcrypt';
 import {
   NotInDBError,
   TokenNotValidError,
@@ -22,6 +21,11 @@ import { ConsoleLoggerService } from '../logger/console-logger.service';
 import { TimestampMillis } from '../utils/timestamp';
 import { Cron, Timeout } from '@nestjs/schedule';
 import { randomBytes } from 'crypto';
+import {
+  bufferToBase64Url,
+  checkPassword,
+  hashPassword,
+} from 'src/utils/password';
 
 @Injectable()
 export class AuthService {
@@ -52,27 +56,6 @@ export class AuthService {
     return await this.usersService.getUserByUsername(accessToken.user.userName);
   }
 
-  async hashPassword(cleartext: string): Promise<string> {
-    // hash the password with bcrypt and 2^12 iterations
-    // this was decided on the basis of https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#bcrypt
-    return await hash(cleartext, 12);
-  }
-
-  async checkPassword(cleartext: string, password: string): Promise<boolean> {
-    return await compare(cleartext, password);
-  }
-
-  bufferToBase64Url(text: Buffer): string {
-    // This is necessary as the is no base64url encoding in the toString method
-    // but as can be seen on https://tools.ietf.org/html/rfc4648#page-7
-    // base64url is quite easy buildable from base64
-    return text
-      .toString('base64')
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
-  }
-
   async createTokenForUser(
     userName: string,
     identifier: string,
@@ -86,9 +69,9 @@ export class AuthService {
         `User '${user.userName}' has already 200 tokens and can't have anymore`,
       );
     }
-    const secret = this.bufferToBase64Url(randomBytes(54));
-    const keyId = this.bufferToBase64Url(randomBytes(8));
-    const accessToken = await this.hashPassword(secret);
+    const secret = bufferToBase64Url(randomBytes(54));
+    const keyId = bufferToBase64Url(randomBytes(8));
+    const accessToken = await hashPassword(secret);
     let token;
     // Tokens can only be valid for a maximum of 2 years
     const maximumTokenValidity =
@@ -138,7 +121,7 @@ export class AuthService {
     if (accessToken === undefined) {
       throw new NotInDBError(`AuthToken '${token}' not found`);
     }
-    if (!(await this.checkPassword(token, accessToken.accessTokenHash))) {
+    if (!(await checkPassword(token, accessToken.accessTokenHash))) {
       // hashes are not the same
       throw new TokenNotValidError(`AuthToken '${token}' is not valid.`);
     }
