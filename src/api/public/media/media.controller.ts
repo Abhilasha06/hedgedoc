@@ -14,14 +14,13 @@ import {
   NotFoundException,
   Param,
   Post,
-  Req,
   UnauthorizedException,
   UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Request } from 'express';
+import { RequestUser } from '../../../auth/request-user.decorator';
 import {
   ClientError,
   MediaBackendError,
@@ -44,6 +43,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { MediaUploadUrlDto } from '../../../media/media-upload-url.dto';
+import { User } from '../../../users/user.entity';
 import {
   forbiddenDescription,
   successfullyDeletedDescription,
@@ -89,15 +89,11 @@ export class MediaController {
   @UseInterceptors(FileInterceptor('file'))
   @HttpCode(201)
   async uploadMedia(
-    @Req() req: Request,
+    @RequestUser() user: User,
     @UploadedFile() file: MulterFile,
     @Headers('HedgeDoc-Note') noteId: string,
   ): Promise<MediaUploadUrlDto> {
-    if (!req.user) {
-      // We should never reach this, as the TokenAuthGuard handles missing user info
-      throw new InternalServerErrorException('Request did not specify user');
-    }
-    const username = req.user.userName;
+    const username = user.userName;
     this.logger.debug(
       `Recieved filename '${file.originalname}' for note '${noteId}' from user '${username}'`,
       'uploadMedia',
@@ -128,14 +124,10 @@ export class MediaController {
   @ApiNoContentResponse({ description: successfullyDeletedDescription })
   @FullApi
   async deleteMedia(
-    @Req() req: Request,
+    @RequestUser() user: User,
     @Param('filename') filename: string,
   ): Promise<void> {
-    if (!req.user) {
-      // We should never reach this, as the TokenAuthGuard handles missing user info
-      throw new InternalServerErrorException('Request did not specify user');
-    }
-    const username = req.user.userName;
+    const username = user.userName;
     try {
       this.logger.debug(
         `Deleting '${filename}' for user '${username}'`,
