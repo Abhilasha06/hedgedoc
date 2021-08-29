@@ -113,6 +113,13 @@ describe('Notes', () => {
         .expect('Content-Type', /json/)
         .expect(404);
     });
+    it('fails with a forbidden note id', async () => {
+      // check if a missing note correctly returns 404
+      await request(app.getHttpServer())
+        .get('/notes/forbiddenNoteId')
+        .expect('Content-Type', /json/)
+        .expect(400);
+    });
   });
 
   describe('POST /notes/{note}', () => {
